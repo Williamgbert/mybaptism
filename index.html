@@ -1,0 +1,1090 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MyBaptism - Interactive Learning Journey</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Proxima Nova', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            scroll-behavior: smooth;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: Arial, Helvetica, sans-serif;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #383f94 0%, #00adee 100%);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            position: relative;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+
+        /* Navigation */
+        .nav {
+            background: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: static;
+            z-index: 99;
+        }
+
+        .nav-list {
+            display: flex;
+            justify-content: space-around;
+            list-style: none;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .nav-link {
+            color: #383f94;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            background: #383f94;
+            color: white;
+        }
+
+        /* Main Content */
+        .main {
+            padding: 2rem 0;
+        }
+
+        .section {
+            background: white;
+            margin: 2rem 0;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            overflow: hidden;
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .section-header {
+            background: linear-gradient(135deg, #383f94 0%, #00adee 100%);
+            color: white;
+            padding: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .section-header h2 {
+            margin: 0;
+            font-size: 1.3rem;
+        }
+
+        .toggle-icon {
+            font-size: 1.2rem;
+            transition: transform 0.3s ease;
+        }
+
+        .section-content {
+            padding: 1.5rem;
+            display: block;
+            max-height: none;
+            overflow: visible;
+            opacity: 1;
+            transition: all 0.3s ease;
+        }
+
+        .section-content.collapsed {
+            max-height: 0;
+            padding: 0 1.5rem;
+            overflow: hidden;
+            opacity: 0;
+        }
+
+
+
+        /* Form Styles */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #383f94;
+        }
+
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: #00adee;
+        }
+
+        /* Button Styles */
+        .btn {
+            background: linear-gradient(135deg, #383f94 0%, #00adee 100%);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-block;
+            text-decoration: none;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(56, 63, 148, 0.3);
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+        }
+
+        /* Scripture Styles */
+        .scripture {
+            background: #f8f9fa;
+            border-left: 4px solid #00adee;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 0 8px 8px 0;
+            position: relative;
+        }
+
+        .scripture-text {
+            font-style: italic;
+            margin-bottom: 0.5rem;
+            cursor: pointer;
+        }
+
+        .scripture-reference {
+            font-weight: 600;
+            color: #383f94;
+            font-size: 0.9rem;
+        }
+
+        .highlight {
+            background: linear-gradient(120deg, #00adee20 0%, #00adee40 100%);
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+
+        /* Commentary Styles */
+        .commentary {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 8px;
+        }
+
+        .commentary-author {
+            font-weight: 600;
+            color: #383f94;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Tooltip Styles */
+        .tooltip {
+            position: relative;
+            cursor: help;
+            color: #00adee;
+            text-decoration: underline;
+        }
+
+        .tooltip-content {
+            position: absolute;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #333;
+            color: white;
+            padding: 0.5rem;
+            border-radius: 5px;
+            font-size: 0.8rem;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .tooltip:hover .tooltip-content {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Timeline Styles */
+        .timeline {
+            position: relative;
+            padding: 1rem 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 20px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: #00adee;
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-left: 50px;
+            margin-bottom: 2rem;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 11px;
+            top: 5px;
+            width: 18px;
+            height: 18px;
+            background: #383f94;
+            border-radius: 50%;
+            border: 3px solid white;
+            box-shadow: 0 0 0 3px #00adee;
+        }
+
+        .timeline-date {
+            font-weight: 600;
+            color: #383f94;
+            font-size: 0.9rem;
+        }
+
+        .timeline-content {
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin-top: 0.5rem;
+        }
+
+        /* Journal Styles */
+        .journal-entry {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 8px;
+        }
+
+        .journal-date {
+            font-size: 0.8rem;
+            color: #6c757d;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Quiz Styles */
+        .quiz-question {
+            background: white;
+            border: 2px solid #e9ecef;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            border-radius: 10px;
+        }
+
+        .quiz-options {
+            list-style: none;
+            margin-top: 1rem;
+        }
+
+        .quiz-option {
+            background: #f8f9fa;
+            margin: 0.5rem 0;
+            padding: 0.75rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .quiz-option:hover {
+            background: #e9ecef;
+        }
+
+        .quiz-option.correct {
+            background: #d4edda;
+            border: 2px solid #28a745;
+        }
+
+        .quiz-option.incorrect {
+            background: #f8d7da;
+            border: 2px solid #dc3545;
+        }
+
+        /* Responsive Design */
+        @media (min-width: 768px) {
+            .container {
+                max-width: 768px;
+                padding: 0 2rem;
+            }
+
+            .header h1 {
+                font-size: 2.5rem;
+            }
+
+
+
+            .nav-link {
+                font-size: 1rem;
+            }
+
+            .section-header h2 {
+                font-size: 1.5rem;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .container {
+                max-width: 1024px;
+            }
+
+            .nav-list {
+                justify-content: center;
+                gap: 1rem;
+            }
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: rgba(255,255,255,0.3);
+            z-index: 1000;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: #00adee;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <header class="header">
+        <div class="container">
+            <h1>MyBaptism</h1>
+            <p>Interactive Learning Journey</p>
+        </div>
+    </header>
+
+    <nav class="nav">
+        <div class="container">
+            <ul class="nav-list">
+                <li><a href="#introduction" class="nav-link active">My Journey</a></li>
+                <li><a href="#biblical" class="nav-link">Scripture</a></li>
+                <li><a href="#history" class="nav-link">History</a></li>
+                <li><a href="#reflection" class="nav-link">Reflection</a></li>
+                <li><a href="#timeline" class="nav-link">Timeline</a></li>
+                <li><a href="#quiz" class="nav-link">Quiz</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="main">
+        <div class="container">
+            <!-- Introduction Section -->
+            <section id="introduction" class="section">
+                <div class="section-header" onclick="toggleSection('introduction')">
+                    <h2>My Baptism Journey</h2>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="section-content active">
+                    <p>Welcome to your personal baptism exploration! Let's begin by recording your baptism details and understanding its profound significance.</p>
+                    
+                    <form id="baptismForm">
+                        <div class="form-group">
+                            <label for="baptismDate">Baptism Date:</label>
+                            <input type="date" id="baptismDate" name="baptismDate">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="baptismAge">Age at Baptism:</label>
+                            <input type="number" id="baptismAge" name="baptismAge" min="0" max="120">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="denomination">Denomination/Church:</label>
+                            <input type="text" id="denomination" name="denomination" placeholder="e.g., Catholic, Baptist, Methodist">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="baptismContext">Baptism Context:</label>
+                            <textarea id="baptismContext" name="baptismContext" rows="3" placeholder="Describe the circumstances, location, or special memories..."></textarea>
+                        </div>
+                        
+                        <button type="submit" class="btn">Save My Details</button>
+                    </form>
+
+                    <div id="savedDetails" style="display: none;">
+                        <h3>Your Baptism Details</h3>
+                        <div id="detailsDisplay"></div>
+                        <button onclick="editDetails()" class="btn btn-secondary">Edit Details</button>
+                    </div>
+
+                    <div style="margin-top: 2rem;">
+                        <h3>The Significance of Baptism</h3>
+                        <p>Baptism represents a profound spiritual transformation - a death to sin and rebirth in Christ. Throughout scripture and church history, this sacred act has marked the beginning of the Christian journey, symbolizing purification, new life, and union with Christ's death and resurrection.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Biblical Foundations Section -->
+            <section id="biblical" class="section">
+                <div class="section-header" onclick="toggleSection('biblical')">
+                    <h2>Biblical Foundations</h2>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="section-content">
+                    <p>Explore the scriptural foundations of baptism through key passages that reveal its meaning and importance.</p>
+
+                    <div class="scripture" onclick="highlightText(this)">
+                        <div class="scripture-text">
+                            "Go therefore and make disciples of all nations, <span class="tooltip">baptizing them<span class="tooltip-content">Greek: baptizo - to immerse, dip, or wash</span></span> in the name of the Father and of the Son and of the Holy Spirit, teaching them to observe all that I have commanded you."
+                        </div>
+                        <div class="scripture-reference">Matthew 28:19-20 (ESV)</div>
+                    </div>
+
+                    <div class="commentary">
+                        <div class="commentary-author">Cultural Context:</div>
+                        <p>In first-century Judaism, ritual washing was common for purification. Jesus' command elevated baptism from ritual cleansing to a declaration of faith and discipleship.</p>
+                    </div>
+
+                    <div class="scripture" onclick="highlightText(this)">
+                        <div class="scripture-text">
+                            "We were buried therefore with him by baptism into death, in order that, just as Christ was raised from the dead by the glory of the Father, we too might <span class="tooltip">walk in newness of life<span class="tooltip-content">A complete transformation of lifestyle and purpose</span></span>."
+                        </div>
+                        <div class="scripture-reference">Romans 6:4 (ESV)</div>
+                    </div>
+
+                    <div class="commentary">
+                        <div class="commentary-author">Symbolic Meaning:</div>
+                        <p>Paul reveals baptism as a participation in Christ's death and resurrection - the old self dies, and a new creation emerges.</p>
+                    </div>
+
+                    <div class="scripture" onclick="highlightText(this)">
+                        <div class="scripture-text">
+                            "And Peter said to them, 'Repent and be baptized every one of you in the name of Jesus Christ for the <span class="tooltip">forgiveness of your sins<span class="tooltip-content">Greek: aphesis - release, pardon, complete forgiveness</span></span>, and you will receive the gift of the Holy Spirit.'"
+                        </div>
+                        <div class="scripture-reference">Acts 2:38 (ESV)</div>
+                    </div>
+
+                    <div class="scripture" onclick="highlightText(this)">
+                        <div class="scripture-text">
+                            "Baptism, which corresponds to this, now saves you, not as a removal of dirt from the body but as an <span class="tooltip">appeal to God for a good conscience<span class="tooltip-content">A pledge or commitment to live righteously before God</span></span>, through the resurrection of Jesus Christ."
+                        </div>
+                        <div class="scripture-reference">1 Peter 3:21 (ESV)</div>
+                    </div>
+
+                    <button onclick="showAllHighlights()" class="btn">View My Highlighted Passages</button>
+                </div>
+            </section>
+
+            <!-- Early Church History Section -->
+            <section id="history" class="section">
+                <div class="section-header" onclick="toggleSection('history')">
+                    <h2>Early Church Practice & Commentary</h2>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="section-content">
+                    <p>Discover how the early church understood and practiced baptism through historical documents and church fathers.</p>
+
+                    <h3>The Didache (c. 50-120 AD)</h3>
+                    <div class="commentary">
+                        <div class="commentary-author">The Teaching of the Twelve Apostles:</div>
+                        <p>"Concerning baptism, baptize in this manner: Having first rehearsed all these things, <span class="tooltip">baptize in the name of the Father and of the Son and of the Holy Spirit<span class="tooltip-content">Following Jesus' exact command in Matthew 28:19</span></span> in living water. If you do not have living water, baptize in other water; and if you cannot in cold, then in warm. If you have neither, <span class="tooltip">pour water three times<span class="tooltip-content">Early evidence of pouring when immersion wasn't possible</span></span> upon the head in the name of the Father, Son, and Holy Spirit."</p>
+                    </div>
+
+                    <h3>Church Fathers on Baptism</h3>
+                    
+                    <div class="commentary">
+                        <div class="commentary-author">Tertullian (c. 160-225 AD):</div>
+                        <p>"Happy is our sacrament of water, in that, by washing away the sins of our early blindness, we are set free and admitted into eternal life... We, little fishes, after the example of our <span class="tooltip">ΙΧΘΥΣ Jesus Christ<span class="tooltip-content">ICHTHYS - Greek acronym meaning 'Jesus Christ, Son of God, Savior'</span></span>, are born in water, nor have we safety in any other way than by permanently abiding in water."</p>
+                    </div>
+
+                    <div class="commentary">
+                        <div class="commentary-author">Origen (c. 185-254 AD):</div>
+                        <p>"The Church received from the apostles the tradition of giving baptism even to infants. For the apostles, to whom were committed the secrets of divine mysteries, knew that there is in everyone the <span class="tooltip">innate stain of sin<span class="tooltip-content">The concept of original sin requiring cleansing</span></span>, which must be washed away through water and the Spirit."</p>
+                    </div>
+
+                    <div class="commentary">
+                        <div class="commentary-author">Augustine (354-430 AD):</div>
+                        <p>"Baptism washes away all, absolutely all, our sins, whether of deed, word, or thought, whether sins original or added, whether knowingly or unknowingly contracted. But this is not to say that the <span class="tooltip">concupiscence<span class="tooltip-content">The tendency toward sin that remains after baptism</span></span> through which sin is transmitted to our descendants is thereby removed."</p>
+                    </div>
+
+                    <h3>Historical Practices</h3>
+                    <div style="margin-top: 1rem;">
+                        <h4>Catechesis (Instruction Period)</h4>
+                        <p>Early Christians underwent extensive preparation, sometimes lasting years, learning doctrine, ethics, and spiritual disciplines before baptism.</p>
+                        
+                        <h4>Methods of Baptism</h4>
+                        <p>Archaeological evidence shows early Christians practiced both immersion (in rivers, pools) and pouring/sprinkling (especially in homes or during illness).</p>
+                        
+                        <h4>Timing and Ceremony</h4>
+                        <p>Baptisms often occurred during Easter vigil, symbolizing resurrection with Christ. Candidates wore white robes and were anointed with oil.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Personal Reflection Section -->
+            <section id="reflection" class="section">
+                <div class="section-header" onclick="toggleSection('reflection')">
+                    <h2>Personal Reflection Exercises</h2>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="section-content">
+                    <p>Reflect deeply on how your baptism shapes your faith and daily life through guided exercises.</p>
+
+                    <h3>Reflection Prompts</h3>
+                    
+                    <div class="form-group">
+                        <label for="reflection1">How has your understanding of baptism evolved since you were baptized?</label>
+                        <textarea id="reflection1" rows="4" placeholder="Share your thoughts..."></textarea>
+                        <button onclick="saveReflection('reflection1')" class="btn">Save Reflection</button>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="reflection2">In what ways does your baptism influence your daily decisions and relationships?</label>
+                        <textarea id="reflection2" rows="4" placeholder="Consider specific examples..."></textarea>
+                        <button onclick="saveReflection('reflection2')" class="btn">Save Reflection</button>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="reflection3">What does "dying to sin and rising in Christ" mean in your personal experience?</label>
+                        <textarea id="reflection3" rows="4" placeholder="Reflect on transformation..."></textarea>
+                        <button onclick="saveReflection('reflection3')" class="btn">Save Reflection</button>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="reflection4">How do you live out your baptismal calling in your community and world?</label>
+                        <textarea id="reflection4" rows="4" placeholder="Think about service and witness..."></textarea>
+                        <button onclick="saveReflection('reflection4')" class="btn">Save Reflection</button>
+                    </div>
+
+                    <h3>My Journal Entries</h3>
+                    <div id="journalEntries">
+                        <p><em>Your saved reflections will appear here...</em></p>
+                    </div>
+
+                    <button onclick="exportJournal()" class="btn btn-secondary">Export My Journal</button>
+                </div>
+            </section>
+
+            <!-- Timeline Section -->
+            <section id="timeline" class="section">
+                <div class="section-header" onclick="toggleSection('timeline')">
+                    <h2>Interactive Timeline</h2>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="section-content">
+                    <p>Explore how your baptism connects to the broader story of Christian baptism throughout history.</p>
+
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-date">c. 30 AD</div>
+                            <div class="timeline-content">
+                                <h4>Jesus' Baptism by John</h4>
+                                <p>Jesus is baptized in the Jordan River, establishing the pattern for Christian baptism and receiving the Holy Spirit's anointing for ministry.</p>
+                            </div>
+                        </div>
+
+                        <div class="timeline-item">
+                            <div class="timeline-date">c. 33 AD</div>
+                            <div class="timeline-content">
+                                <h4>Pentecost - First Christian Baptisms</h4>
+                                <p>Peter preaches to the crowd, and 3,000 people are baptized in a single day, marking the birth of the Christian church.</p>
+                            </div>
+                        </div>
+
+                        <div class="timeline-item">
+                            <div class="timeline-date">c. 50-120 AD</div>
+                            <div class="timeline-content">
+                                <h4>The Didache Written</h4>
+                                <p>Early church manual provides detailed instructions for baptism, showing established practices within decades of Jesus' ministry.</p>
+                            </div>
+                        </div>
+
+                        <div class="timeline-item">
+                            <div class="timeline-date">c. 200 AD</div>
+                            <div class="timeline-content">
+                                <h4>Tertullian's Writings</h4>
+                                <p>First detailed theological treatise on baptism, establishing much of the church's understanding of the sacrament.</p>
+                            </div>
+                        </div>
+
+                        <div class="timeline-item">
+                            <div class="timeline-date">325 AD</div>
+                            <div class="timeline-content">
+                                <h4>Council of Nicaea</h4>
+                                <p>Affirms "one baptism for the forgiveness of sins" in the Nicene Creed, establishing universal Christian doctrine.</p>
+                            </div>
+                        </div>
+
+                        <div class="timeline-item" id="personalBaptism" style="display: none;">
+                            <div class="timeline-date" id="personalDate">Your Baptism</div>
+                            <div class="timeline-content">
+                                <h4>Your Personal Journey Begins</h4>
+                                <p id="personalContent">Your baptism connects you to this ancient tradition of faith, death to sin, and new life in Christ.</p>
+                            </div>
+                        </div>
+
+                        <div class="timeline-item">
+                            <div class="timeline-date">Today</div>
+                            <div class="timeline-content">
+                                <h4>Living Your Baptism</h4>
+                                <p>Every day offers opportunities to live out your baptismal calling - dying to selfishness and rising to serve God and others.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Quiz Section -->
+            <section id="quiz" class="section">
+                <div class="section-header" onclick="toggleSection('quiz')">
+                    <h2>Interactive Quiz</h2>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="section-content">
+                    <p>Test your understanding of baptism through scripture and church history.</p>
+
+                    <div id="quizContainer">
+                        <div class="quiz-question" id="question1">
+                            <h4>Question 1: What does the Greek word "baptizo" primarily mean?</h4>
+                            <ul class="quiz-options">
+                                <li class="quiz-option" onclick="selectAnswer(this, false)">To sprinkle lightly</li>
+                                <li class="quiz-option" onclick="selectAnswer(this, true)">To immerse or dip</li>
+                                <li class="quiz-option" onclick="selectAnswer(this, false)">To anoint with oil</li>
+                                <li class="quiz-option" onclick="selectAnswer(this, false)">To bless with words</li>
+                            </ul>
+                        </div>
+
+                        <div class="quiz-question" id="question2">
+                            <h4>Question 2: According to Romans 6:4, baptism symbolizes:</h4>
+                            <ul class="quiz-options">
+                                <li class="quiz-option" onclick="selectAnswer(this, false)">Washing away physical dirt</li>
+                                <li class="quiz-option" onclick="selectAnswer(this, true)">Burial and resurrection with Christ</li>
+                                <li class="quiz-option" onclick="selectAnswer(this, false)">Joining a local church</li>
+                                <li class="quiz-option" onclick="selectAnswer(this, false)">Receiving special powers</li>
+                            </ul>
+                        </div>
+
+                        <div class="quiz-question" id="question3">
+                            <h4>Question 3: The Didache suggests that if living water isn't available:</h4>
+                            <ul class="quiz-options">
+                                <li class="quiz-option" onclick="selectAnswer(this, false)">Baptism should be postponed</li>
+                                <li class="quiz-option" onclick="selectAnswer(this, true)">Other water may be used, even poured</li>
+                                <li class="quiz-option" onclick="selectAnswer(this, false)">Only a priest can perform baptism</li>
+                                <li class="quiz-option" onclick="selectAnswer(this, false)">The ceremony is invalid</li>
+                            </ul>
+                        </div>
+
+                        <div class="quiz-question" id="question4">
+                            <h4>Question 4: Which church father wrote extensively about infant baptism?</h4>
+                            <ul class="quiz-options">
+                                <li class="quiz-option" onclick="selectAnswer(this, false)">Tertullian</li>
+                                <li class="quiz-option" onclick="selectAnswer(this, true)">Origen</li>
+                                <li class="quiz-option" onclick="selectAnswer(this, false)">Jerome</li>
+                                <li class="quiz-option" onclick="selectAnswer(this, false)">Chrysostom</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div id="quizResults" style="display: none;">
+                        <h3>Quiz Complete!</h3>
+                        <p id="scoreDisplay"></p>
+                        <button onclick="resetQuiz()" class="btn">Retake Quiz</button>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <script>
+        // Global variables
+        let highlightedPassages = [];
+        let journalEntries = [];
+        let quizScore = 0;
+        let questionsAnswered = 0;
+
+        // Initialize app
+        document.addEventListener('DOMContentLoaded', function() {
+            loadSavedData();
+            updateProgressBar();
+            setupScrollSpy();
+        });
+
+        // Section toggle functionality
+        function toggleSection(sectionId) {
+            const content = document.querySelector(`#${sectionId} .section-content`);
+            const icon = document.querySelector(`#${sectionId} .toggle-icon`);
+            
+            if (content.classList.contains('collapsed')) {
+                content.classList.remove('collapsed');
+                icon.textContent = '▼';
+            } else {
+                content.classList.add('collapsed');
+                icon.textContent = '▶';
+            }
+        }
+
+        // Baptism form handling
+        document.getElementById('baptismForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = {
+                date: document.getElementById('baptismDate').value,
+                age: document.getElementById('baptismAge').value,
+                denomination: document.getElementById('denomination').value,
+                context: document.getElementById('baptismContext').value
+            };
+            
+            localStorage.setItem('baptismDetails', JSON.stringify(formData));
+            displaySavedDetails(formData);
+            updatePersonalTimeline(formData);
+        });
+
+        function displaySavedDetails(data) {
+            const display = document.getElementById('detailsDisplay');
+            const form = document.getElementById('baptismForm');
+            const saved = document.getElementById('savedDetails');
+            
+            display.innerHTML = `
+                <p><strong>Date:</strong> ${data.date || 'Not specified'}</p>
+                <p><strong>Age:</strong> ${data.age || 'Not specified'}</p>
+                <p><strong>Denomination:</strong> ${data.denomination || 'Not specified'}</p>
+                <p><strong>Context:</strong> ${data.context || 'Not specified'}</p>
+            `;
+            
+            form.style.display = 'none';
+            saved.style.display = 'block';
+        }
+
+        function editDetails() {
+            document.getElementById('baptismForm').style.display = 'block';
+            document.getElementById('savedDetails').style.display = 'none';
+        }
+
+        function updatePersonalTimeline(data) {
+            const personalItem = document.getElementById('personalBaptism');
+            const personalDate = document.getElementById('personalDate');
+            const personalContent = document.getElementById('personalContent');
+            
+            if (data.date) {
+                const baptismDate = new Date(data.date);
+                personalDate.textContent = baptismDate.getFullYear();
+                personalContent.innerHTML = `
+                    <h4>Your Baptism Journey</h4>
+                    <p>At age ${data.age || 'unknown'}, you were baptized in the ${data.denomination || 'Christian'} tradition. ${data.context ? data.context : 'This marked the beginning of your personal journey of faith.'}</p>
+                `;
+                personalItem.style.display = 'block';
+            }
+        }
+
+        // Scripture highlighting
+        function highlightText(element) {
+            if (!element.classList.contains('highlight')) {
+                element.classList.add('highlight');
+                const text = element.querySelector('.scripture-text').textContent;
+                const reference = element.querySelector('.scripture-reference').textContent;
+                highlightedPassages.push({ text, reference, date: new Date().toLocaleDateString() });
+                localStorage.setItem('highlightedPassages', JSON.stringify(highlightedPassages));
+            }
+        }
+
+        function showAllHighlights() {
+            if (highlightedPassages.length === 0) {
+                alert('No passages highlighted yet. Click on scripture verses to highlight them!');
+                return;
+            }
+            
+            let highlightsList = 'Your Highlighted Passages:\n\n';
+            highlightedPassages.forEach((passage, index) => {
+                highlightsList += `${index + 1}. ${passage.reference}\n"${passage.text}"\nHighlighted: ${passage.date}\n\n`;
+            });
+            
+            alert(highlightsList);
+        }
+
+        // Reflection journal
+        function saveReflection(reflectionId) {
+            const textarea = document.getElementById(reflectionId);
+            const text = textarea.value.trim();
+            
+            if (!text) {
+                alert('Please write something before saving!');
+                return;
+            }
+            
+            const entry = {
+                id: reflectionId,
+                text: text,
+                date: new Date().toLocaleDateString(),
+                time: new Date().toLocaleTimeString()
+            };
+            
+            // Remove existing entry with same id
+            journalEntries = journalEntries.filter(e => e.id !== reflectionId);
+            journalEntries.push(entry);
+            
+            localStorage.setItem('journalEntries', JSON.stringify(journalEntries));
+            displayJournalEntries();
+            
+            alert('Reflection saved successfully!');
+        }
+
+        function displayJournalEntries() {
+            const container = document.getElementById('journalEntries');
+            
+            if (journalEntries.length === 0) {
+                container.innerHTML = '<p><em>Your saved reflections will appear here...</em></p>';
+                return;
+            }
+            
+            container.innerHTML = journalEntries.map(entry => `
+                <div class="journal-entry">
+                    <div class="journal-date">${entry.date} at ${entry.time}</div>
+                    <p>${entry.text}</p>
+                </div>
+            `).join('');
+        }
+
+        function exportJournal() {
+            if (journalEntries.length === 0) {
+                alert('No journal entries to export yet!');
+                return;
+            }
+            
+            let exportText = 'My Baptism Reflection Journal\n';
+            exportText += '================================\n\n';
+            
+            journalEntries.forEach(entry => {
+                exportText += `${entry.date} at ${entry.time}\n`;
+                exportText += `${entry.text}\n\n`;
+            });
+            
+            const blob = new Blob([exportText], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'my-baptism-journal.txt';
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        // Quiz functionality
+        function selectAnswer(option, isCorrect) {
+            const question = option.closest('.quiz-question');
+            const options = question.querySelectorAll('.quiz-option');
+            
+            // Disable all options in this question
+            options.forEach(opt => {
+                opt.style.pointerEvents = 'none';
+                if (opt === option) {
+                    opt.classList.add(isCorrect ? 'correct' : 'incorrect');
+                } else if (opt.onclick.toString().includes('true')) {
+                    opt.classList.add('correct');
+                }
+            });
+            
+            if (isCorrect) {
+                quizScore++;
+            }
+            
+            questionsAnswered++;
+            
+            if (questionsAnswered === 4) {
+                setTimeout(showQuizResults, 1000);
+            }
+        }
+
+        function showQuizResults() {
+            const container = document.getElementById('quizContainer');
+            const results = document.getElementById('quizResults');
+            const scoreDisplay = document.getElementById('scoreDisplay');
+            
+            container.style.display = 'none';
+            results.style.display = 'block';
+            
+            const percentage = (quizScore / 4) * 100;
+            let message = `You scored ${quizScore} out of 4 (${percentage}%)! `;
+            
+            if (percentage >= 75) {
+                message += 'Excellent understanding of baptism!';
+            } else if (percentage >= 50) {
+                message += 'Good job! Review the materials to deepen your understanding.';
+            } else {
+                message += 'Keep studying! The scripture and history sections will help.';
+            }
+            
+            scoreDisplay.textContent = message;
+        }
+
+        function resetQuiz() {
+            quizScore = 0;
+            questionsAnswered = 0;
+            
+            document.getElementById('quizContainer').style.display = 'block';
+            document.getElementById('quizResults').style.display = 'none';
+            
+            // Reset all options
+            document.querySelectorAll('.quiz-option').forEach(option => {
+                option.classList.remove('correct', 'incorrect');
+                option.style.pointerEvents = 'auto';
+            });
+        }
+
+        // Navigation and scroll spy
+        function setupScrollSpy() {
+            const navLinks = document.querySelectorAll('.nav-link');
+            const sections = document.querySelectorAll('.section');
+            
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href').substring(1);
+                    const targetSection = document.getElementById(targetId);
+                    
+                    // Update active nav link
+                    navLinks.forEach(l => l.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Scroll to section
+                    targetSection.scrollIntoView({ behavior: 'smooth' });
+                    
+                    // Open section if closed
+                    const content = targetSection.querySelector('.section-content');
+                    if (content.classList.contains('collapsed')) {
+                        toggleSection(targetId);
+                    }
+                });
+            });
+            
+            // Update progress bar on scroll
+            window.addEventListener('scroll', updateProgressBar);
+        }
+
+        function updateProgressBar() {
+            const scrollTop = window.pageYOffset;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const scrollPercent = (scrollTop / docHeight) * 100;
+            
+            document.getElementById('progressBar').style.width = scrollPercent + '%';
+        }
+
+        // Load saved data
+        function loadSavedData() {
+            // Load baptism details
+            const savedDetails = localStorage.getItem('baptismDetails');
+            if (savedDetails) {
+                const data = JSON.parse(savedDetails);
+                displaySavedDetails(data);
+                updatePersonalTimeline(data);
+                
+                // Populate form fields
+                document.getElementById('baptismDate').value = data.date || '';
+                document.getElementById('baptismAge').value = data.age || '';
+                document.getElementById('denomination').value = data.denomination || '';
+                document.getElementById('baptismContext').value = data.context || '';
+            }
+            
+            // Load highlighted passages
+            const savedHighlights = localStorage.getItem('highlightedPassages');
+            if (savedHighlights) {
+                highlightedPassages = JSON.parse(savedHighlights);
+                // Re-apply highlights to DOM
+                highlightedPassages.forEach(passage => {
+                    const scriptureElements = document.querySelectorAll('.scripture');
+                    scriptureElements.forEach(element => {
+                        if (element.querySelector('.scripture-reference').textContent === passage.reference) {
+                            element.classList.add('highlight');
+                        }
+                    });
+                });
+            }
+            
+            // Load journal entries
+            const savedJournal = localStorage.getItem('journalEntries');
+            if (savedJournal) {
+                journalEntries = JSON.parse(savedJournal);
+                displayJournalEntries();
+                
+                // Populate reflection textareas
+                journalEntries.forEach(entry => {
+                    const textarea = document.getElementById(entry.id);
+                    if (textarea) {
+                        textarea.value = entry.text;
+                    }
+                });
+            }
+        }
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9832856dc596b0d3',t:'MTc1ODU1MTY0Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
