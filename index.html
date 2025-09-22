@@ -55,33 +55,43 @@
         /* Navigation */
         .nav {
             background: white;
-            padding: 1rem 0;
+            padding: 0.75rem 0;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
             position: static;
             z-index: 99;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
         }
 
         .nav-list {
             display: flex;
-            justify-content: space-around;
+            justify-content: flex-start;
             list-style: none;
-            flex-wrap: wrap;
             gap: 0.5rem;
+            min-width: max-content;
+            padding: 0 1rem;
         }
 
         .nav-link {
             color: #383f94;
             text-decoration: none;
-            padding: 0.5rem 1rem;
+            padding: 0.75rem 1rem;
             border-radius: 20px;
             transition: all 0.3s ease;
             font-weight: 500;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
+            white-space: nowrap;
+            min-width: fit-content;
+            touch-action: manipulation;
         }
 
         .nav-link:hover, .nav-link.active {
             background: #383f94;
             color: white;
+        }
+
+        .nav-link:active {
+            transform: scale(0.95);
         }
 
         /* Main Content */
@@ -117,16 +127,26 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            min-height: 44px;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .section-header:active {
+            transform: scale(0.98);
         }
 
         .section-header h2 {
             margin: 0;
             font-size: 1.3rem;
+            flex: 1;
         }
 
         .toggle-icon {
             font-size: 1.2rem;
             transition: transform 0.3s ease;
+            min-width: 24px;
+            text-align: center;
         }
 
         .section-content {
@@ -157,20 +177,30 @@
             margin-bottom: 0.5rem;
             font-weight: 600;
             color: #383f94;
+            font-size: 0.95rem;
         }
 
         .form-group input, .form-group select, .form-group textarea {
             width: 100%;
-            padding: 0.75rem;
+            padding: 1rem;
             border: 2px solid #e9ecef;
             border-radius: 8px;
-            font-size: 1rem;
+            font-size: 16px; /* Prevents zoom on iOS */
             transition: border-color 0.3s ease;
+            -webkit-appearance: none;
+            appearance: none;
+            box-sizing: border-box;
         }
 
         .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
             outline: none;
             border-color: #00adee;
+            box-shadow: 0 0 0 3px rgba(0, 173, 238, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
         }
 
         /* Button Styles */
@@ -178,7 +208,7 @@
             background: linear-gradient(135deg, #383f94 0%, #00adee 100%);
             color: white;
             border: none;
-            padding: 0.75rem 1.5rem;
+            padding: 1rem 1.5rem;
             border-radius: 25px;
             cursor: pointer;
             font-size: 1rem;
@@ -186,11 +216,21 @@
             transition: all 0.3s ease;
             display: inline-block;
             text-decoration: none;
+            min-height: 44px; /* iOS touch target minimum */
+            min-width: 44px;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+            box-sizing: border-box;
         }
 
         .btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(56, 63, 148, 0.3);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 8px rgba(56, 63, 148, 0.2);
         }
 
         .btn-secondary {
@@ -350,15 +390,26 @@
 
         .quiz-option {
             background: #f8f9fa;
-            margin: 0.5rem 0;
-            padding: 0.75rem;
-            border-radius: 5px;
+            margin: 0.75rem 0;
+            padding: 1rem;
+            border-radius: 8px;
             cursor: pointer;
             transition: all 0.3s ease;
+            min-height: 44px;
+            display: flex;
+            align-items: center;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+            border: 2px solid transparent;
         }
 
         .quiz-option:hover {
             background: #e9ecef;
+            transform: translateX(4px);
+        }
+
+        .quiz-option:active {
+            transform: scale(0.98);
         }
 
         .quiz-option.correct {
@@ -372,6 +423,54 @@
         }
 
         /* Responsive Design */
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 0.75rem;
+            }
+
+            .header {
+                padding: 1.5rem 0;
+            }
+
+            .header h1 {
+                font-size: 1.75rem;
+            }
+
+            .section {
+                margin: 1rem 0;
+                border-radius: 10px;
+            }
+
+            .section-content {
+                padding: 1rem;
+            }
+
+            .section-header {
+                padding: 1rem;
+            }
+
+            .timeline-item {
+                padding-left: 40px;
+            }
+
+            .timeline::before {
+                left: 15px;
+            }
+
+            .timeline-item::before {
+                left: 6px;
+                width: 16px;
+                height: 16px;
+            }
+        }
+
+        @media (min-width: 481px) and (max-width: 767px) {
+            .nav-list {
+                justify-content: flex-start;
+                padding: 0 1rem;
+            }
+        }
+
         @media (min-width: 768px) {
             .container {
                 max-width: 768px;
@@ -382,10 +481,14 @@
                 font-size: 2.5rem;
             }
 
-
+            .nav-list {
+                justify-content: center;
+                padding: 0;
+            }
 
             .nav-link {
                 font-size: 1rem;
+                padding: 0.75rem 1.25rem;
             }
 
             .section-header h2 {
@@ -1086,5 +1189,5 @@
             }
         }
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9832856dc596b0d3',t:'MTc1ODU1MTY0Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98328cca52caafba',t:'MTc1ODU1MTk0Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
